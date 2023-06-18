@@ -1,0 +1,29 @@
+          data-item-id={snipCartItem.dataitemid}
+          data-itemn-name={snipCartItem.dadataitemname}
+          data-item-price={snipCartItem.dataitemprice}
+
+
+       <button
+          className={classOutput + ' ' + snipCartClass ? snipCartClass : ''}
+          onClick={onClick}
+
+
+
+               nodes {
+        node {
+          id
+          title
+          tag
+          desc
+          price
+          useage
+          size
+          pictures {
+            file {
+              url
+              fileName
+              contentType
+            }
+          }
+        }
+      }

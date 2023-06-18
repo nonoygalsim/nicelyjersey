@@ -1,0 +1,39 @@
+import productJson from './product.json';
+import blogJson from './blog.json';
+import { graphql, useStaticQuery } from 'gatsby';
+/**
+
+*/
+
+function getHumanNatureProducts() {
+  console.log('getHumanNatureProducts', humanNatureProducts);
+
+  return humanNatureProducts;
+}
+const humanNatureProducts = ({ data }) => {
+  const humanNatureProductsEdge = data.humanNature.edges;
+  console.log(
+    'humanNatureProducts - humanNatureProductsEdge',
+    humanNatureProductsEdge
+  );
+  return humanNatureProductsEdge;
+};
+
+//export default humanNatureProducts;
+
+function useHN() {
+  const { hn } = useStaticQuery(graphql`
+    query contentNot {
+      allContentfulHumanNature {
+        edges {
+          node {
+            title
+          }
+        }
+      }
+    }
+  `);
+  return hn;
+}
+
+export { useHN };

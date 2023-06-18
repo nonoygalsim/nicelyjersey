@@ -1,0 +1,143 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { kebabCase } from 'lodash';
+import Helmet from 'react-helmet';
+import Layout from '../components/layout/Layout';
+import ProductPrices from '../components/bigcommerce/ProductPrices';
+import { graphql, Link } from 'gatsby';
+import Img from 'gatsby-image';
+
+import Content, { HTMLContent } from '../components/layout/Content';
+
+export const ProductContentfulTemplate = ({
+  title,
+  description,
+  price,
+  image,
+  id,
+}) => {
+  const contentComponent = '';
+  const PostContent = contentComponent || Content;
+  //const description = "my desc"
+  const content = ' ny content';
+  const tags = null;
+  const helmet = null;
+  const sku = 'sku';
+  return (
+    <div className="content">
+      <div className="has-text-centered margin-top-0">
+        <h1
+          className="has-text-weight-bold is-size-1"
+          style={{
+            boxShadow:
+              '0.5rem 0 0 rgba(0, 0, 0, 1), -0.5rem 0 0 rgba(0, 0, 0, 1)',
+            backgroundColor: 'rgba(0, 0, 0, 1)',
+            color: 'white',
+            padding: '1rem',
+          }}
+        >
+          {title}
+        </h1>
+      </div>
+      <section className="section">
+        <div className="bc-product-single">
+          <section className="bc-product-single__top">
+            <div className="bc-product__gallery">
+              <Img
+                fluid={image.fluid}
+                alt="Main"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+
+            <div className="bc-product-single__meta">
+              <h1 className="bc-product__title">{title}</h1>
+              <ProductPrices price={price} />
+
+              <span className="bc-product__sku">
+                <span className="bc-product-single__meta-label">SKU:</span>{' '}
+                {sku}
+              </span>
+              <button
+                className="bc-btn bc-btn--form-submit bc-btn--add_to_cart snipcart-add-item"
+                data-item-id={id}
+                data-item-name={title}
+                data-item-price={price}
+                data-item-image={image.gatsbyImageData}
+                data-item-url="https://gatsby-coffee-project.netlify.com/"
+              >
+                add to cart
+              </button>
+            </div>
+          </section>
+          <section className="bc-single-product__description">
+            <h4 className="bc-single-product__section-title">
+              Product Description
+            </h4>
+            <div
+              className="bc-product__description"
+              dangerouslySetInnerHTML={{ __html: description }}
+            ></div>
+          </section>
+          <section className="bc-single-product__specifications">
+            <h4 className="bc-single-product__section-title">Specifications</h4>
+            <ul className="bc-product__spec-list">
+              <li className="bc-product__spec">
+                <span className="bc-product__spec-title">Weight:</span>{' '}
+                <span className="bc-product__spec-value">{price} oz</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+egProductContentfulTemplate.propTypes = {
+  title: PropTypes.string,
+};
+
+export default ({ data }) => {
+  console.log('PRODCONTENTFUK data is ' + JSON.stringify(data));
+  const post = data.allContentfulCoffeeItem; //data.allContentfulMusicItem
+  console.log('PRODCONTENTFUK post is ' + JSON.stringify(post));
+  console.log('PRODCONTENTFUK title is ' + JSON.stringify(post.nodes[0].title));
+
+  return (
+    <Layout>
+      <ProductContentfulTemplate
+        title={post.nodes[0].title}
+        description={post.nodes[0].image.description}
+        price={post.nodes[0].price}
+        image={post.nodes[0].image}
+        id={post.nodes[0].id}
+      />
+    </Layout>
+  );
+};
+
+export const query = graphql`
+  query ($slug: String!) {
+    allContentfulHumalNature {
+      edges {
+        node {
+          id
+          title
+          desc
+          price
+          useage
+          size
+          pictures {
+            id
+            file {
+              url
+              fileName
+              contentType
+            }
+          }
+        }
+      }
+    }
+  }
+`;
